@@ -1,7 +1,6 @@
 import tkinter as tk
 from playsound import playsound
 import pandas as pd
-import time
 from tkinter import messagebox
 
 # TO-DO'S
@@ -14,7 +13,7 @@ FROM_MORSE = {row[1]: row[0] for (index, row) in file.iterrows()}
 # function for translating - text to morse and morse to text
 translating = False
 output = ""
-running = False
+playing = False
 text = ""
 
 
@@ -44,7 +43,7 @@ def translate():
 # function for playing the morse sound
 def scan_to_play():
     global text
-    if running:
+    if playing:
         char = text[0]
         text = text[1:]
         if char == "-":
@@ -52,21 +51,21 @@ def scan_to_play():
         elif char == ".":
             playsound("bip.mp3")
         else:
-            time.sleep(0.7)
+            screen.after(600)
     if len(text) > 0:
         screen.after(1, scan_to_play)
 
 
 def play():
-    global running, text
+    global playing, text
     text = morse_entry.get(1.0, "end")
-    running = True
+    playing = True
     scan_to_play()
 
 
 def stop():
-    global running
-    running = False
+    global playing
+    playing = False
 
 
 # user interface
